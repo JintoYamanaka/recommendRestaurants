@@ -18,14 +18,10 @@ import java.net.URL;
 
 public class HttpGetTask extends AsyncTask<Void, Void, String[][]> {
 
-//    private TextView mTextView;
     private Activity mParentActivity;
     private TextView[] mRestaurantNameViews = new TextView[3];
     private TextView[] mRestaurantLocationViews = new TextView[3];
 //    private Button[] mRestaurantLocationButtons = new Button[3];
-//    private TextView[] mFirstRestaurantViews = new TextView[2];
-//    private TextView[] mSecondRestaurantViews = new TextView[2];
-//    private TextView[] mThirdRestaurantViews = new TextView[2];
 
     private double mLatitude;
     private double mLongitude;
@@ -33,7 +29,6 @@ public class HttpGetTask extends AsyncTask<Void, Void, String[][]> {
 
     // 実行するURL
 //    private String mUri = "https://jitakuizakaya.com/category/tsukuba/";
-//    private String mUri = "https://jitakuizakaya.com/category/tsukuba/page/2/";
 
 //    public HttpGetTask(Activity parentActivity, TextView[] firstRestaurantViews, TextView[] secondRestaurantViews,
 //                       TextView[] thirdRestaurantViews, double latitude, double longitude) {
@@ -45,9 +40,6 @@ public class HttpGetTask extends AsyncTask<Void, Void, String[][]> {
         this.mRestaurantNameViews = restaurantNameViews;
         this.mRestaurantLocationViews = restaurantLocationViews;
 //        this.mRestaurantLocationButtons = restaurantLocationButtons;
-//        this.mFirstRestaurantViews = firstRestaurantViews;
-//        this.mSecondRestaurantViews = secondRestaurantViews;
-//        this.mThirdRestaurantViews = thirdRestaurantViews;
         this.mLatitude = latitude;
         this.mLongitude = longitude;
     }
@@ -81,22 +73,14 @@ public class HttpGetTask extends AsyncTask<Void, Void, String[][]> {
 //        this.mRestaurantLocationButtons[1].setText(stringList[1][1]);
 //        this.mRestaurantLocationButtons[2].setText(stringList[2][1]);
 
-//        this.mFirstRestaurantViews[0].setText(stringList[0][0]);
-//        this.mFirstRestaurantViews[1].setText(stringList[0][1]);
-//        this.mSecondRestaurantViews[0].setText(stringList[1][0]);
-//        this.mSecondRestaurantViews[1].setText(stringList[1][1]);
-//        this.mThirdRestaurantViews[0].setText(stringList[2][0]);
-//        this.mThirdRestaurantViews[1].setText(stringList[2][1]);
     }
 
     private String[][] exec_get() {
         HttpURLConnection http = null;
         InputStream in = null;
-//        ArrayList<ArrayList<String>> restaurants = new ArrayList<>();
         float[] top3Distance = {Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE};
 //        String[][] top3Restaurants = {{"", "", ""}, {"", "", ""}, {"", "", ""}};
         String[][] top3Restaurants = {{"", ""}, {"", ""}, {"", ""}};
-//        ArrayList<String[]> restaurants;
         String src = "";
 
         try {
@@ -116,7 +100,6 @@ public class HttpGetTask extends AsyncTask<Void, Void, String[][]> {
 //                    System.out.println("URL: " + url.ownText());
 
                     double[] latlng = Latlng.getLocationFromPlaceName(mParentActivity, address.ownText());
-//                    double[] latlng = Location.getLocationFromPlaceName(mParentActivity, "つくば市桜2-30-4");
 //                    System.out.println("緯度: " + String.valueOf(latlng[0]));
 //                    System.out.println("経度: " + String.valueOf(latlng[1]));
 
@@ -152,23 +135,6 @@ public class HttpGetTask extends AsyncTask<Void, Void, String[][]> {
                         top3Restaurants[2][0] = name.ownText(); // 店名
                         top3Restaurants[2][1] = address.ownText(); // 住所
                     }
-
-//                    for (int i = 0; i < top3Distance.length; i++){
-//                        System.out.println(top3Distance[i]);
-//                        if(top3Distance[i] >= distance[0]) {
-//                            top3Distance[i] = distance[0];
-//                            top3Restaurants[i][0] = name.ownText(); // 店名
-//                            top3Restaurants[i][1] = address.ownText(); // 住所
-//                            break;
-//                        }
-//                    }
-
-//                    ArrayList<String> restaurant = new ArrayList<>();
-//                    restaurant.add(name.ownText());
-//                    restaurant.add(address.ownText());
-//                    restaurant.add(String.valueOf(distance[0]));
-//                    restaurants.add(restaurant);
-
                 }
 
                 pageNum++;

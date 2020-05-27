@@ -14,29 +14,13 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
 
 public class RecommendActivity extends AppCompatActivity implements LocationListener, View.OnClickListener {
     private LocationManager locationManager;
     private TextView firstItemTextView;
     private TextView secondItemTextView;
     private TextView thirdItemTextView;
-    //    private TextView[] firstRestaurantViews = new TextView[2];
-//    private TextView[] secondRestaurantViews = new TextView[2];
-//    private TextView[] thirdRestaurantViews = new TextView[2];
     private TextView[] restaurantNameViews = new TextView[3];
     private TextView[] restaurantLocationViews = new TextView[3];
 //    private Button[] restaurantLocationButtons = new Button[3];
@@ -46,13 +30,9 @@ public class RecommendActivity extends AppCompatActivity implements LocationList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend);
 
-//        mTextView = findViewById(R.id.third_restaurant_locate);
-//        mReturnTextView = (TextView) findViewById(R.id.third_restaurant_url);
         firstItemTextView = findViewById(R.id.first_item);
         secondItemTextView = findViewById(R.id.second_item);
         thirdItemTextView = findViewById(R.id.third_item);
-//        firstRestaurantViews[0] = findViewById(R.id.first_restaurant_name);
-//        firstRestaurantViews[1] = findViewById(R.id.first_restaurant_locate);
         restaurantNameViews[0] = findViewById(R.id.first_restaurant_name);
         restaurantNameViews[1] = findViewById(R.id.second_restaurant_name);
         restaurantNameViews[2] = findViewById(R.id.third_restaurant_name);
@@ -62,25 +42,12 @@ public class RecommendActivity extends AppCompatActivity implements LocationList
 //        restaurantLocationButtons[0].setOnClickListener(this);
 //        restaurantLocationButtons[1].setOnClickListener(this);
 //        restaurantLocationButtons[2].setOnClickListener(this);
-
         restaurantLocationViews[0] = findViewById(R.id.first_restaurant_locate);
         restaurantLocationViews[1] = findViewById(R.id.second_restaurant_locate);
         restaurantLocationViews[2] = findViewById(R.id.third_restaurant_locate);
         restaurantLocationViews[0].setOnClickListener(this);
         restaurantLocationViews[1].setOnClickListener(this);
         restaurantLocationViews[2].setOnClickListener(this);
-
-//        firstRestaurantViews[1].setOnClickListener((View.OnClickListener) this);
-
-//        secondRestaurantViews[0] = findViewById(R.id.second_restaurant_name);
-//        secondRestaurantViews[1] = findViewById(R.id.second_restaurant_locate);
-
-//        secondRestaurantViews[1].setOnClickListener((View.OnClickListener) this);
-
-//        thirdRestaurantViews[0] = findViewById(R.id.third_restaurant_name);
-//        thirdRestaurantViews[1] = findViewById(R.id.third_restaurant_locate);
-
-//        thirdRestaurantViews[1].setOnClickListener((View.OnClickListener) this);
 
         firstItemTextView.setVisibility(View.INVISIBLE);
         secondItemTextView.setVisibility(View.INVISIBLE);
@@ -94,13 +61,6 @@ public class RecommendActivity extends AppCompatActivity implements LocationList
         restaurantLocationViews[0].setVisibility(View.INVISIBLE);
         restaurantLocationViews[1].setVisibility(View.INVISIBLE);
         restaurantLocationViews[2].setVisibility(View.INVISIBLE);
-
-//        firstRestaurantViews[0].setVisibility(View.INVISIBLE);
-//        firstRestaurantViews[1].setVisibility(View.INVISIBLE);
-//        secondRestaurantViews[0].setVisibility(View.INVISIBLE);
-//        secondRestaurantViews[1].setVisibility(View.INVISIBLE);
-//        thirdRestaurantViews[0].setVisibility(View.INVISIBLE);
-//        thirdRestaurantViews[1].setVisibility(View.INVISIBLE);
 
         // パーミッションを確認
         if (ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED
@@ -122,27 +82,19 @@ public class RecommendActivity extends AppCompatActivity implements LocationList
          requestLocationUpdatesの2度投げはOK（公式ドキュメントより）だからWifiを使ってもう一回呼ぶ
          */
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-
-//        Log.d("location", String.valueOf(location));
     }
 
     @Override
     public void onLocationChanged(Location location){
-//        mTextView.setText(String.valueOf(location.getLatitude()) + "," + String.valueOf(location.getLongitude()));
         Log.d("location", String.valueOf(location.getLatitude()));
         Log.d("location", String.valueOf(location.getLongitude()));
         locationManager.removeUpdates(this);
 
-
-
-//        HttpGetTask task = new HttpGetTask(this, firstRestaurantViews, secondRestaurantViews,
-//                thirdRestaurantViews, location.getLatitude(), location.getLongitude());
 //        HttpGetTask task = new HttpGetTask(this, restaurantNameViews, restaurantLocationButtons,
 //                location.getLatitude(), location.getLongitude());
         HttpGetTask task = new HttpGetTask(this, restaurantNameViews, restaurantLocationViews,
                 location.getLatitude(), location.getLongitude());
         task.execute();
-        // 店の名前と住所が帰ってくる
 
         firstItemTextView.setVisibility(View.VISIBLE);
         secondItemTextView.setVisibility(View.VISIBLE);
@@ -156,13 +108,6 @@ public class RecommendActivity extends AppCompatActivity implements LocationList
 //        restaurantLocationButtons[0].setVisibility(View.VISIBLE);
 //        restaurantLocationButtons[1].setVisibility(View.VISIBLE);
 //        restaurantLocationButtons[2].setVisibility(View.VISIBLE);
-//        firstRestaurantViews[0].setVisibility(View.VISIBLE);
-//        firstRestaurantViews[1].setVisibility(View.VISIBLE);
-//        secondRestaurantViews[0].setVisibility(View.VISIBLE);
-//        secondRestaurantViews[1].setVisibility(View.VISIBLE);
-//        thirdRestaurantViews[0].setVisibility(View.VISIBLE);
-//        thirdRestaurantViews[1].setVisibility(View.VISIBLE);
-//        firstItemTextView.setOnClickListener(this);
     }
 
     @Override
@@ -214,36 +159,13 @@ public class RecommendActivity extends AppCompatActivity implements LocationList
     @Override
     public void onClick(View view) {
         TextView clickedText = findViewById(view.getId());
-//        clickedText.getText();
         Uri uri = Uri.parse("geo:0,0?q=" + clickedText.getText());
         System.out.println(clickedText.getText());
-
-//        Uri uri = Uri.parse("geo:35.681382,139.766084?z=16");
 
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
-
-//        if(view.getId() == R.id.button_gps) {
-//            mLocationType = GPS;
-//            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-//                    != PackageManager.PERMISSION_GRANTED
-//                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-//                    != PackageManager.PERMISSION_GRANTED) {
-//                return;
-//            }
-//            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-//        } else if(view.getId() == R.id.button_wifi) {
-//            mLocationType = WIFI;
-//            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-//                    != PackageManager.PERMISSION_GRANTED
-//                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-//                    != PackageManager.PERMISSION_GRANTED) {
-//                return;
-//            }
-//            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-//        }
     }
 }

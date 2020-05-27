@@ -24,18 +24,14 @@ public class MainActivity extends AppCompatActivity{
         if (ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            /** fine location のリクエストコード（値は他のパーミッションと被らなければ、なんでも良い）*/
-            final int requestCode = 1;
-
             // いずれも得られていない場合はパーミッションのリクエストを要求する
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, requestCode );
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             return;
         }
 
         Button recommendActivitySwitchButton = (Button) findViewById(R.id.button_present_location);
         recommendActivitySwitchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-//                Log.d("ok", "OK");
                 Intent intent = new Intent(getApplicationContext(), RecommendActivity.class);
                 startActivity(intent);
             }
