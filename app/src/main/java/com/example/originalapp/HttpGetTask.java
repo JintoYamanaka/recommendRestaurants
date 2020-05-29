@@ -2,8 +2,11 @@ package com.example.originalapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Paint;
 import android.os.AsyncTask;
+import android.text.style.UnderlineSpan;
 import android.widget.TextView;
+import android.text.SpannableString;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -60,14 +63,20 @@ public class HttpGetTask extends AsyncTask<Void, Void, String[][]> {
 
     // タスク終了時
     @Override
-    protected void onPostExecute(String[][] stringList) {
+        protected void onPostExecute(String[][] stringList) {
         mDialog.dismiss();
+
         this.mRestaurantNameViews[0].setText(stringList[0][0]);
         this.mRestaurantNameViews[1].setText(stringList[1][0]);
         this.mRestaurantNameViews[2].setText(stringList[2][0]);
         this.mRestaurantLocationViews[0].setText(stringList[0][1]);
         this.mRestaurantLocationViews[1].setText(stringList[1][1]);
         this.mRestaurantLocationViews[2].setText(stringList[2][1]);
+
+        // テキストにアンダーラインをセット
+        this.mRestaurantLocationViews[0].setPaintFlags(this.mRestaurantNameViews[0].getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        this.mRestaurantLocationViews[1].setPaintFlags(this.mRestaurantNameViews[1].getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        this.mRestaurantLocationViews[2].setPaintFlags(this.mRestaurantNameViews[2].getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
 //        this.mRestaurantLocationButtons[0].setText(stringList[0][1]);
 //        this.mRestaurantLocationButtons[1].setText(stringList[1][1]);

@@ -49,18 +49,18 @@ public class RecommendActivity extends AppCompatActivity implements LocationList
         restaurantLocationViews[1].setOnClickListener(this);
         restaurantLocationViews[2].setOnClickListener(this);
 
-        firstItemTextView.setVisibility(View.INVISIBLE);
-        secondItemTextView.setVisibility(View.INVISIBLE);
-        thirdItemTextView.setVisibility(View.INVISIBLE);
-        restaurantNameViews[0].setVisibility(View.INVISIBLE);
-        restaurantNameViews[1].setVisibility(View.INVISIBLE);
-        restaurantNameViews[2].setVisibility(View.INVISIBLE);
+//        firstItemTextView.setVisibility(View.INVISIBLE);
+//        secondItemTextView.setVisibility(View.INVISIBLE);
+//        thirdItemTextView.setVisibility(View.INVISIBLE);
+//        restaurantNameViews[0].setVisibility(View.INVISIBLE);
+//        restaurantNameViews[1].setVisibility(View.INVISIBLE);
+//        restaurantNameViews[2].setVisibility(View.INVISIBLE);
 //        restaurantLocationButtons[0].setVisibility(View.INVISIBLE);
 //        restaurantLocationButtons[1].setVisibility(View.INVISIBLE);
 //        restaurantLocationButtons[2].setVisibility(View.INVISIBLE);
-        restaurantLocationViews[0].setVisibility(View.INVISIBLE);
-        restaurantLocationViews[1].setVisibility(View.INVISIBLE);
-        restaurantLocationViews[2].setVisibility(View.INVISIBLE);
+//        restaurantLocationViews[0].setVisibility(View.INVISIBLE);
+//        restaurantLocationViews[1].setVisibility(View.INVISIBLE);
+//        restaurantLocationViews[2].setVisibility(View.INVISIBLE);
 
         // パーミッションを確認
         if (ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED
@@ -96,15 +96,15 @@ public class RecommendActivity extends AppCompatActivity implements LocationList
                 location.getLatitude(), location.getLongitude());
         task.execute();
 
-        firstItemTextView.setVisibility(View.VISIBLE);
-        secondItemTextView.setVisibility(View.VISIBLE);
-        thirdItemTextView.setVisibility(View.VISIBLE);
-        restaurantNameViews[0].setVisibility(View.VISIBLE);
-        restaurantNameViews[1].setVisibility(View.VISIBLE);
-        restaurantNameViews[2].setVisibility(View.VISIBLE);
-        restaurantLocationViews[0].setVisibility(View.VISIBLE);
-        restaurantLocationViews[1].setVisibility(View.VISIBLE);
-        restaurantLocationViews[2].setVisibility(View.VISIBLE);
+//        firstItemTextView.setVisibility(View.VISIBLE);
+//        secondItemTextView.setVisibility(View.VISIBLE);
+//        thirdItemTextView.setVisibility(View.VISIBLE);
+//        restaurantNameViews[0].setVisibility(View.VISIBLE);
+//        restaurantNameViews[1].setVisibility(View.VISIBLE);
+//        restaurantNameViews[2].setVisibility(View.VISIBLE);
+//        restaurantLocationViews[0].setVisibility(View.VISIBLE);
+//        restaurantLocationViews[1].setVisibility(View.VISIBLE);
+//        restaurantLocationViews[2].setVisibility(View.VISIBLE);
 //        restaurantLocationButtons[0].setVisibility(View.VISIBLE);
 //        restaurantLocationButtons[1].setVisibility(View.VISIBLE);
 //        restaurantLocationButtons[2].setVisibility(View.VISIBLE);
