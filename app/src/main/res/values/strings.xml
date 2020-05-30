@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OriginalApp</string>
+    <string name="app_name">Take out recommender</string>
     <string name="first_restaurant_locate"><u>first_restaurant_locate</u></string>
     <string name="second_restaurant_locate"><u>second_restaurant_name</u></string>
     <string name="third_restaurant_locate"><u>third_restaurant_name</u></string>
