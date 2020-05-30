@@ -51,7 +51,7 @@ public class HttpGetTask extends AsyncTask<Void, Void, String[][]> {
     @Override
     protected void onPreExecute() {
         mDialog = new ProgressDialog(mParentActivity);
-        mDialog.setMessage("取得中...");
+        mDialog.setMessage("情報を取得しています...");
         mDialog.show();
     }
 
@@ -66,12 +66,34 @@ public class HttpGetTask extends AsyncTask<Void, Void, String[][]> {
         protected void onPostExecute(String[][] stringList) {
         mDialog.dismiss();
 
+        /**
+         *  撮影用にコメントアウト
+         */
         this.mRestaurantNameViews[0].setText(stringList[0][0]);
         this.mRestaurantNameViews[1].setText(stringList[1][0]);
         this.mRestaurantNameViews[2].setText(stringList[2][0]);
         this.mRestaurantLocationViews[0].setText(stringList[0][1]);
         this.mRestaurantLocationViews[1].setText(stringList[1][1]);
         this.mRestaurantLocationViews[2].setText(stringList[2][1]);
+        /**
+         *  撮影用に追加
+         */
+//        if(mLatitude == 36.0825102) {
+//            this.mRestaurantNameViews[0].setText("サザコーヒー");
+//            this.mRestaurantNameViews[1].setText("やぐら寿司");
+//            this.mRestaurantNameViews[2].setText("Gigi");
+//            this.mRestaurantLocationViews[0].setText("つくば市吾妻1丁目8-10");
+//            this.mRestaurantLocationViews[1].setText("つくば市竹園1丁目8-8");
+//            this.mRestaurantLocationViews[2].setText("つくば市東新井17-3");
+//        } else {
+//            this.mRestaurantNameViews[0].setText("蛇の目寿司");
+//            this.mRestaurantNameViews[1].setText("金の馬結");
+//            this.mRestaurantNameViews[2].setText("花・花");
+//            this.mRestaurantLocationViews[0].setText("つくば市天久保3-15-1");
+//            this.mRestaurantLocationViews[1].setText("つくば市天久保2-15-7");
+//            this.mRestaurantLocationViews[2].setText("つくば市花畑3-13-10");
+//        }
+
 
         // テキストにアンダーラインをセット
         this.mRestaurantLocationViews[0].setPaintFlags(this.mRestaurantNameViews[0].getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -95,6 +117,10 @@ public class HttpGetTask extends AsyncTask<Void, Void, String[][]> {
         try {
 
             int pageNum = 1;
+            /**
+             *  撮影用にwhileをコメントアウト&URL変更
+             */
+//            String pageUrl = "https://jitakuizakaya.com/category/tsukuba/page/3";
             String pageUrl = "https://jitakuizakaya.com/category/tsukuba/page/1";
             while(isExistURL(pageUrl)) {
                 Document listDoc = Jsoup.connect(pageUrl).get();
@@ -145,7 +171,9 @@ public class HttpGetTask extends AsyncTask<Void, Void, String[][]> {
                         top3Restaurants[2][1] = address.ownText(); // 住所
                     }
                 }
-
+            /**
+             *  撮影用にwhileをコメントアウト
+             */
                 pageNum++;
                 pageUrl = "https://jitakuizakaya.com/category/tsukuba/page/" + String.valueOf(pageNum);
             }

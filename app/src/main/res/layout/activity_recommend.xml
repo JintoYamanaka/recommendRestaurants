@@ -13,7 +13,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="132dp"
-        android:text="1番近いお店"
+        android:text="1番目に近いお店"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
