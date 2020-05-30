@@ -16,13 +16,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-public class RecommendActivity extends AppCompatActivity implements LocationListener, View.OnClickListener {
+public class RecommendActivity extends AppCompatActivity implements View.OnClickListener {
+//    private double latitude;
+//    private double longitude;
     private LocationManager locationManager;
     private TextView firstItemTextView;
     private TextView secondItemTextView;
     private TextView thirdItemTextView;
     private TextView[] restaurantNameViews = new TextView[3];
     private TextView[] restaurantLocationViews = new TextView[3];
+
 //    private Button[] restaurantLocationButtons = new Button[3];
 
     @Override
@@ -71,30 +74,41 @@ public class RecommendActivity extends AppCompatActivity implements LocationList
             return;
         }
 
-        // 位置情報を管理している LocationManager のインスタンスを生成する
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        // 位置情報を管理している LocationManager のインスタンスを生成する
+//        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//
+//        // まずはGPSで取得
+//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+//        /**
+//         GPSの値が空（GPSが作動していない）ならWifiで取得
+//         GPSが作動しないとき、上のリクエストでonLocationChangedが呼ばれない
+//         requestLocationUpdatesの2度投げはOK（公式ドキュメントより）だからWifiを使ってもう一回呼ぶ
+//         */
+//        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
-        // まずはGPSで取得
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        /**
-         GPSの値が空（GPSが作動していない）ならWifiで取得
-         GPSが作動しないとき、上のリクエストでonLocationChangedが呼ばれない
-         requestLocationUpdatesの2度投げはOK（公式ドキュメントより）だからWifiを使ってもう一回呼ぶ
-         */
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        Intent intent = getIntent();
+        double latitude = intent.getDoubleExtra("LATITUDE", 0);
+        double longitude = intent.getDoubleExtra("LONGITUDE", 0);
+        Log.d("get_location", String.valueOf(latitude));
+        Log.d("get_location", String.valueOf(longitude));
+
+        HttpGetTask task = new HttpGetTask(this, restaurantNameViews, restaurantLocationViews,
+                latitude, longitude);
+        task.execute();
     }
 
-    @Override
-    public void onLocationChanged(Location location){
-        Log.d("location", String.valueOf(location.getLatitude()));
-        Log.d("location", String.valueOf(location.getLongitude()));
-        locationManager.removeUpdates(this);
+//    @Override
+//    public void onLocationChanged(Location location){
+//        Log.d("location", String.valueOf(location.getLatitude()));
+//        Log.d("location", String.valueOf(location.getLongitude()));
+//        locationManager.removeUpdates(this);
 
 //        HttpGetTask task = new HttpGetTask(this, restaurantNameViews, restaurantLocationButtons,
 //                location.getLatitude(), location.getLongitude());
-        HttpGetTask task = new HttpGetTask(this, restaurantNameViews, restaurantLocationViews,
-                location.getLatitude(), location.getLongitude());
-        task.execute();
+
+//        HttpGetTask task = new HttpGetTask(this, restaurantNameViews, restaurantLocationViews,
+//                location.getLatitude(), location.getLongitude());
+//        task.execute();
 
 //        firstItemTextView.setVisibility(View.VISIBLE);
 //        secondItemTextView.setVisibility(View.VISIBLE);
@@ -108,53 +122,53 @@ public class RecommendActivity extends AppCompatActivity implements LocationList
 //        restaurantLocationButtons[0].setVisibility(View.VISIBLE);
 //        restaurantLocationButtons[1].setVisibility(View.VISIBLE);
 //        restaurantLocationButtons[2].setVisibility(View.VISIBLE);
-    }
+//    }
 
-    @Override
-    protected void onResume() {
-        Log.d("PlaceSample", "plog onResume");
-        super.onResume();
-    }
+//    @Override
+//    protected void onResume() {
+//        Log.d("PlaceSample", "plog onResume");
+//        super.onResume();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        Log.d("PlaceSample", "plog onPause");
+//        super.onPause();
+//        if(locationManager != null) {
+//            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                    != PackageManager.PERMISSION_GRANTED
+//                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                return;
+//            }
+//            locationManager.removeUpdates(this);
+//        }
+//    }
 
-    @Override
-    protected void onPause() {
-        Log.d("PlaceSample", "plog onPause");
-        super.onPause();
-        if(locationManager != null) {
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            locationManager.removeUpdates(this);
-        }
-    }
+//    @Override
+//    public void onStatusChanged(String s, int i, Bundle bundle) {
+//        switch (i) {
+//            case LocationProvider.AVAILABLE:
+//                Log.d("PlaceSample", "AVAILABLE");
+//                break;
+//            case LocationProvider.OUT_OF_SERVICE:
+//                Log.d("PlaceSample", "OUT_OF_SERVICE");
+//                break;
+//            case LocationProvider.TEMPORARILY_UNAVAILABLE:
+//                Log.d("PlaceSample", "TEMPORARILY_UNAVAILABLE");
+//                break;
+//        }
+//    }
 
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-        switch (i) {
-            case LocationProvider.AVAILABLE:
-                Log.d("PlaceSample", "AVAILABLE");
-                break;
-            case LocationProvider.OUT_OF_SERVICE:
-                Log.d("PlaceSample", "OUT_OF_SERVICE");
-                break;
-            case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                Log.d("PlaceSample", "TEMPORARILY_UNAVAILABLE");
-                break;
-        }
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
+//    @Override
+//    public void onProviderEnabled(String s) {
+//
+//    }
+//
+//    @Override
+//    public void onProviderDisabled(String s) {
+//
+//    }
 
     @Override
     public void onClick(View view) {
