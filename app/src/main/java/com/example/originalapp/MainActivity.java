@@ -25,14 +25,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-
         // パーミッションを確認
-        if (ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             // いずれも得られていない場合はパーミッションのリクエストを要求する
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             return;
         }
 
@@ -42,21 +41,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         Button searchButton = (Button) findViewById(R.id.button_search);
         searchButton.setOnClickListener(this);
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-//        recommendActivitySwitchButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View arg0) {
-//                Intent intent = new Intent(getApplicationContext(), RecommendActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
     }
-
-
-
-
-
-
 
     @Override
     protected void onResume() {
@@ -77,16 +62,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             }
             mLocationManager.removeUpdates(this);
         }
-//        super.onPause();
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("PlaceSample", "plog onLocationChanged");
-
-        Log.d("present_location", String.valueOf(location.getLatitude()));
-        Log.d("present_location", String.valueOf(location.getLongitude()));
-
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -135,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.button_present_location) {
-
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -144,17 +122,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             }
             // まずはGPSで取得
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            /**
-             GPSが作動しないとき、上のリクエストでonLocationChangedが呼ばれない
-             requestLocationUpdatesの2度投げはOKだからWifiを使ってもう一回呼ぶ
-             */
+            // GPSが作動しないとき、上のリクエストでonLocationChangedが呼ばれない。requestLocationUpdatesの2度投げはOKなのでWifiを使ってもう一回呼ぶ。
             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         } else if(view.getId() == R.id.button_search) {
             String address = inputTextView.getText().toString();
             if(address.length() != 0) {
                 double[] latlng = Latlng.getLocationFromPlaceName(this, address);
-                Log.d("search_location", String.valueOf(latlng[0]));
-                Log.d("search_location", String.valueOf(latlng[1]));
                 Intent intent = new Intent(getApplicationContext(), RecommendActivity.class);
                 intent.putExtra("LATITUDE", latlng[0]);
                 intent.putExtra("LONGITUDE", latlng[1]);
